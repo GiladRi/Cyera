@@ -79,15 +79,3 @@ class CustomerAllocations:
 def allocate(compute_units: float, customers: list[Customer]) -> list[float]:
     customer_allocations = CustomerAllocations(compute_units, customers)
     return customer_allocations.allocate()
-
-
-def main():
-    customers = [
-        Customer(10, 1, 1),
-        Customer(10, 1, 1)
-    ]
-    print(allocate(23, customers))
-
-
-if __name__ == "__main__":
-    main()
