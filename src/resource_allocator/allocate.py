@@ -17,6 +17,8 @@ class CustomerAllocations:
         self.__grow_sum = 0
         self.__shrink_sum = 0
         self.__remaining_compute_units = compute_units
+
+        # Right now it's a dict. (It may not keep the order of the customers)
         self.__customer_to_resources: dict[int, CustomerToResources] = {}
         self.__initialize(customers)
 
@@ -66,10 +68,16 @@ class CustomerAllocations:
         return customer.shrink / self.__shrink_sum
 
     def allocate(self) -> list[float]:
-        while self.__remaining_compute_units != 0.0:
+        # Loop until 0 (with floats it's risky)
+        while abs(self.__remaining_compute_units) > 1e-9:
             if self.__remaining_compute_units > 0.0:
                 self.__relocate_excess_compute_units(self.__remaining_compute_units)
             elif self.__remaining_compute_units < 0.0:
+
+                if self.__shrink_sum == 0:
+                    # An edge case. We shouldn't arrive here. Should log this in real-code
+                    break
+
                 shrink_sum_to_reduce = self.__relocate_missing_compute_units(abs(self.__remaining_compute_units))
                 self.__shrink_sum -= shrink_sum_to_reduce
 
