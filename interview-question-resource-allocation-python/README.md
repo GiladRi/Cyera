@@ -1,0 +1,1 @@
+To run tests, run command `python3 -m pytest .` from this directory.
