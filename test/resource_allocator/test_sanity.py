@@ -67,3 +67,13 @@ def test_6():
     result = allocate(10, customers)
     expected = [7, 0, 0, 3]
     assert _are_lists_identical(result, expected)
+
+
+@pytest.mark.parametrize("amount,customers,expected", [
+    (10, [Customer(19, 1, 1), Customer(5, 1, 1), Customer(11, 1, 1), Customer(15, 1, 1)], [7, 0, 0, 3]),
+    (80, [Customer(10, 1, 1), Customer(10, 1, 1), Customer(10, 1, 1), Customer(10, 1, 1)], [20, 20, 20, 20]),
+    (80, [Customer(1, 1, 1), Customer(1, 1, 1), Customer(1, 1, 1), Customer(1, 1, 1)], [20, 20, 20, 20]),
+    (100, [Customer(10, 2, 1), Customer(10, 1, 1), Customer(10, 1, 1), Customer(10, 1, 1)], [34, 22, 22, 22])
+])
+def test_7(amount, customers, expected):
+    assert _are_lists_identical(allocate(amount, customers), expected)
